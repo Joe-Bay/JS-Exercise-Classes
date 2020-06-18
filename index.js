@@ -92,18 +92,31 @@ class Car {
    return this.tank;
   }
   drive(distance){
-    let maxDist = (Math.floor(this.tank * this.milesPerGallon));
-    this.tank = this.tank - Math.floor(distance / this.milesPerGallon);
-    this.odometer = (this.odometer + distance);
-    if(distance >= maxDist){
-      this.odometer = ((this.odometer - distance) + maxDist);
-       console.log(`I ran out of fuel at ${this.odometer} miles!`);
-    }else if (this.tank <= 0){
-      this.tank === 0;
-       console.log(`I ran out of fuel at ${this.odometer} miles!`);
-    }
+    // let maxDist = this.tank * this.milesPerGallon;
+    // this.tank = this.tank - Math.floor(distance / this.milesPerGallon);
+    // this.odometer = (this.odometer + distance);
+    // if(distance >= maxDist){
+    //   this.odometer = ((this.odometer - distance) + maxDist);
+    //    console.log(`I ran out of fuel at ${this.odometer} miles!`);
+    // }else if (this.tank <= 0){
+    //   this.tank === 0;
+    //    console.log(`I ran out of fuel at ${this.odometer} miles!`);
+    // }
+
+    let distanceDriven = 0;
+    if(this.tank * this.milesPerGallon >= distance) { // max distance is greater than distance (input distance)
+      this.odometer += distance; // allow the odometer to climb
+      this.tank -= (distance / this.milesPerGallon); // tank drains depending on how far you drove using that equation
+      distanceDriven = distance; // equating our driven so far variable to input distance
+    }else { // if we drive too far aka run out of gas
+      distanceDriven = this.tank * this.milesPerGallon; // setting the distance driven to the max distance it could actually run
+      this.odometer += distanceDriven; // sets odometer to real number of miles possible
+      this.tank = 0; // empty the tank
+      return `I ran out of fuel at ${this.odometer} miles!`;
   }
-}
+  }
+  }
+
 const newCar = new Car('BatMobile', 20);
 newCar.fill(10);
 console.log(newCar);
@@ -172,7 +185,7 @@ class Instructor extends Lambdasian{
     return `Today we are learning about ${subject}`;
   }
   grade(student, subject){
-    `${student.name} receives a perfect score on ${subject}`;
+    return `${student.name} receives a perfect score on ${subject}`;
   }
 }
 
@@ -186,10 +199,8 @@ const professor = new Instructor({
   catchPhrase: 'Another day another nickel',
 });
 
-professor.speak();
-professor.demo('Arrays');
-professor.grade('Sally', 'Objects');
-
+console.log(professor.speak());
+console.log(professor.demo('Arrays'));
 
 /*
   TASK 5
@@ -206,9 +217,37 @@ professor.grade('Sally', 'Objects');
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
-class Student {
-
+class Student extends Lambdasian {
+  constructor(attrs){
+    super(attrs);
+    this.previousBackground = attrs.previousBackground;
+    this.className = attrs.className;
+    this.favSubjects = attrs.favSubjects;
+  }
+listSubjects(){
+  return `Loving ${this.favSubjects[0]}, ${this.favSubjects[1]}, ${this.favSubjects[2]}!`;
 }
+PRAssignment(subject){
+return `${this.name} has submitted a PR for ${subject}`;
+}
+sprintChallenge(subject){
+  return `${this.name} has begun sprint challenge on ${subject}`
+}
+}
+const newStudent = new Student({
+  name: 'Matt',
+  age: 35,
+  location: 'Alaska',
+  previousBackground: 'Plumber',
+  className: 'WebEU 3',
+  favSubjects: ['JS', 'Node', 'Redux'],
+});
+
+console.log(newStudent.speak());
+console.log(newStudent.listSubjects());
+console.log(newStudent.PRAssignment('Redux'));
+console.log(newStudent.sprintChallenge('Arrays'));
+console.log(professor.grade(newStudent, 'Advanced Array Methods'));
 
 /*
   TASK 6
@@ -223,9 +262,28 @@ class Student {
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager {
-
+class ProjectManager extends Instructor{
+  constructor(attrs){
+    super(attrs);
+    this.gradClassName = attrs.gradClassName;
+    this.favInstructor = attrs.favInstructor;
+  }
+standUp(channel){
+  return `${this.name} announces to ${channel}, @channel standy times!`;
 }
+debugsCode(studentObject, subject){
+  return `${this.name} debugs ${studentObject.name}'s code on ${subject}`;
+}
+}
+const manager = new ProjectManager({
+  name: 'Joe',
+  age: 23,
+  location: 'Alaska',
+  gradClassName: 'Class of 2015',
+  favInstructor: 'Elon Musk',
+});
+manager.debugsCode(newStudent, 'Math');
+
 
 /*
   STRETCH PROBLEM (no tests!)
