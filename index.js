@@ -94,9 +94,9 @@ class Car {
   drive(distance){
     let maxDist = (Math.floor(this.tank * this.milesPerGallon));
     this.tank = this.tank - Math.floor(distance / this.milesPerGallon);
-    this.odometer = this.odometer + distance;
+    this.odometer = (this.odometer + distance);
     if(distance >= maxDist){
-      this.odometer = (this.odometer - distance) + maxDist;
+      this.odometer = ((this.odometer - distance) + maxDist);
        console.log(`I ran out of fuel at ${this.odometer} miles!`);
     }else if (this.tank <= 0){
       this.tank === 0;
@@ -129,8 +129,23 @@ newCar.drive(200);
         + {name} and {location} of course come from the instance's own properties.
 */
 class Lambdasian {
-
+  constructor(attrs){
+    this.name = attrs.name;
+    this.age = attrs.age;
+    this.location = attrs.location;
+  }
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}`;
+  }
 }
+
+const newLambda = new Lambdasian({
+  name: 'Henry',
+  age: 35,
+  location: 'Alaska',
+});
+
+console.log(newLambda.speak());
 
 /*
   TASK 4
@@ -146,9 +161,35 @@ class Lambdasian {
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
-class Instructor {
-
+class Instructor extends Lambdasian{
+  constructor(attrs){
+    super(attrs);
+    this.specialty = attrs.specialty;
+    this.favLanguage = attrs.favLanguage;
+    this.catchPhrase = attrs.catchPhrase;
+  }
+  demo(subject){
+    return `Today we are learning about ${subject}`;
+  }
+  grade(student, subject){
+    `${student.name} receives a perfect score on ${subject}`;
+  }
 }
+
+// time to create object
+const professor = new Instructor({
+  name: 'Luis',
+  age: 34,
+  location: 'Kansas',
+  specialty: 'SQL',
+  favLanguage: 'C#',
+  catchPhrase: 'Another day another nickel',
+});
+
+professor.speak();
+professor.demo('Arrays');
+professor.grade('Sally', 'Objects');
+
 
 /*
   TASK 5
