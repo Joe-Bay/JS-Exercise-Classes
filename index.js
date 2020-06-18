@@ -46,20 +46,20 @@ constructor(name, age){
   this.age = age;
   this.stomach = [];
 }
-eat(edible){
+eat(edible){ // creating method for person
   if(this.stomach.length < 10){
     this.stomach.push(edible);
   }
   return this.stomach;
 }
-poop(){
+poop(){ // method for person
   return this.stomach = [];
 }
-toString(){
+toString(){ // method for person
   return `${this.name}, ${this.age}`;
 }
 }
-const personOne = new Person('Henry', 26);
+const personOne = new Person('Henry', 26); // new Person object created which inherits the methods
 personOne.eat('taco');
 console.log(this.stomach);
 personOne.poop();
@@ -80,8 +80,41 @@ personOne.poop();
 */
 
 class Car {
-
+  constructor(model, milesPerGallon){
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+  }
+// methods go here
+  fill(gallons){
+   this.tank = this.tank + gallons;
+   return this.tank;
+  }
+  drive(distance){
+    let maxDist = (Math.floor(this.tank * this.milesPerGallon));
+    this.tank = this.tank - Math.floor(distance / this.milesPerGallon);
+    this.odometer = this.odometer + distance;
+    if(distance >= maxDist){
+      this.odometer = (this.odometer - distance) + maxDist;
+       console.log(`I ran out of fuel at ${this.odometer} miles!`);
+    }else if (this.tank <= 0){
+      this.tank === 0;
+       console.log(`I ran out of fuel at ${this.odometer} miles!`);
+    }
+  }
 }
+const newCar = new Car('BatMobile', 20);
+newCar.fill(10);
+console.log(newCar);
+newCar.drive(50);
+console.log(newCar);
+newCar.drive(100);
+console.log(newCar);
+newCar.drive(200);
+
+
+
 
 /*
   TASK 3
